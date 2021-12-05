@@ -16,7 +16,7 @@ class _HomeState extends State<Home> {
   File image;
   String category;
 
-  void _getImageFromCamera() async {
+  void _getImageAndClassify() async {
     PickedFile pickedFile = (await ImagePicker().getImage(
         source: ImageSource.camera, maxHeight: 1080, maxWidth: 1080));
     setState(() {
@@ -30,7 +30,6 @@ class _HomeState extends State<Home> {
       var request = new http.MultipartRequest(
           "POST", Uri.parse("https://scene-net.herokuapp.com/predict"));
       request.files.add(
-        // http.MultipartFile.fromBytes("image", await image.readAsBytes(), contentType: MediaType('image', 'jpeg'))
           http.MultipartFile(
               'image',
               image.readAsBytes().asStream(),
@@ -52,23 +51,22 @@ class _HomeState extends State<Home> {
         }
       });
     }
-
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: image == null ? Center(
-        child: IconButton(
-            icon: Icon(Icons.add_a_photo), onPressed: _getImageFromCamera)
-      ): Column(
-        children: [
-          Image.file(image),
-          category == null ? Text("Loading....") : Text(category),
-        IconButton(
-            icon: Icon(Icons.add_a_photo), onPressed: _getImageFromCamera)
-        ],
-      )
+        body: image == null ? Center(
+            child: IconButton(
+                icon: Icon(Icons.add_a_photo), onPressed: _getImageAndClassify)
+        ) : Column(
+          children: [
+            Image.file(image),
+            category == null ? Text("Loading....") : Text(category),
+            IconButton(
+                icon: Icon(Icons.add_a_photo), onPressed: _getImageAndClassify)
+          ],
+        )
     );
   }
 }

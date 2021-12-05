@@ -1,6 +1,6 @@
-# scene_net
+# SceneNet
 
-SceneNet frontend
+Scenery detection using transfer learning.
 
 ## Getting Started
 
