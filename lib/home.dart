@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -13,11 +14,13 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
 
   File image;
+  String category;
 
   void _getImageFromCamera() async {
     PickedFile pickedFile = (await ImagePicker().getImage(
         source: ImageSource.camera, maxHeight: 1080, maxWidth: 1080));
     setState(() {
+      category = null;
       image = File(pickedFile.path);
     });
 
@@ -31,13 +34,15 @@ class _HomeState extends State<Home> {
             filename: "image.jpg")
     );
 
-    print("Sending");
+
     request.send().then((response) async {
-      print("sent");
       var stringed = await http.Response.fromStream(response);
-      print(stringed.body);
+      final result = jsonDecode(stringed.body) as Map<String, dynamic>;
+
       if (response.statusCode == 200) {
-        print(response.toString());
+        setState(() {
+          category = result["category"];
+        });
       }
     });
 
@@ -46,10 +51,17 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
+      body: image == null ? Center(
         child: IconButton(
-            icon: Icon(Icons.add_a_photo), onPressed: _getImageFromCamera),
-      ),
+            icon: Icon(Icons.add_a_photo), onPressed: _getImageFromCamera)
+      ): Column(
+        children: [
+          Image.file(image),
+          category == null ? Text("Loading....") : Text(category),
+        IconButton(
+            icon: Icon(Icons.add_a_photo), onPressed: _getImageFromCamera)
+        ],
+      )
     );
   }
 }
