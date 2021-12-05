@@ -20,31 +20,38 @@ class _HomeState extends State<Home> {
     PickedFile pickedFile = (await ImagePicker().getImage(
         source: ImageSource.camera, maxHeight: 1080, maxWidth: 1080));
     setState(() {
-      category = null;
-      image = File(pickedFile.path);
-    });
-
-    var request = new http.MultipartRequest("POST", Uri.parse("https://scene-net.herokuapp.com/predict"));
-    request.files.add(
-        // http.MultipartFile.fromBytes("image", await image.readAsBytes(), contentType: MediaType('image', 'jpeg'))
-        http.MultipartFile(
-            'image',
-            image.readAsBytes().asStream(),
-            image.lengthSync(),
-            filename: "image.jpg")
-    );
-
-
-    request.send().then((response) async {
-      var stringed = await http.Response.fromStream(response);
-      final result = jsonDecode(stringed.body) as Map<String, dynamic>;
-
-      if (response.statusCode == 200) {
-        setState(() {
-          category = result["category"];
-        });
+      if (pickedFile != null) {
+        category = null;
+        image = File(pickedFile.path);
       }
     });
+
+    if (image != null) {
+      var request = new http.MultipartRequest(
+          "POST", Uri.parse("https://scene-net.herokuapp.com/predict"));
+      request.files.add(
+        // http.MultipartFile.fromBytes("image", await image.readAsBytes(), contentType: MediaType('image', 'jpeg'))
+          http.MultipartFile(
+              'image',
+              image.readAsBytes().asStream(),
+              image.lengthSync(),
+              filename: "image.jpg")
+      );
+
+
+      request.send().then((response) async {
+        var stringed = await http.Response.fromStream(response);
+        final result = jsonDecode(stringed.body) as Map<String, dynamic>;
+
+        if (response.statusCode == 200) {
+          setState(() {
+            category = result["category"];
+          });
+        } else {
+          category = "Oops, there was an error.";
+        }
+      });
+    }
 
   }
 
