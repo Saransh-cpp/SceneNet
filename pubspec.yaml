@@ -27,6 +27,8 @@ dependencies:
   path:
   http:
   http_parser:
+  flutter_spinkit:
+  flutter_tts:
 
 
 
