@@ -15,6 +15,7 @@ class _HomeState extends State<Home> {
 
   File image;
   String category;
+  bool soundOn = false;
 
   void _getImageAndClassify() async {
     PickedFile pickedFile = (await ImagePicker().getImage(
@@ -56,16 +57,56 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: image == null ? Center(
-            child: IconButton(
-                icon: Icon(Icons.add_a_photo), onPressed: _getImageAndClassify)
-        ) : Column(
-          children: [
-            Image.file(image),
-            category == null ? Text("Loading....") : Text(category),
-            IconButton(
-                icon: Icon(Icons.add_a_photo), onPressed: _getImageAndClassify)
+        backgroundColor: Colors.white,
+        appBar: AppBar(
+          title: Text("SceneNet", textAlign: TextAlign.center,
+            style: TextStyle(color: Colors.black),),
+          elevation: 0,
+          backgroundColor: Colors.white,
+          actions: [
+            soundOn
+                ? IconButton(
+                icon: Icon(Icons.mic_off_rounded),
+                onPressed: () {
+                  setState(() {
+                    soundOn = false;
+                  });
+                }
+            )
+                : IconButton(
+                icon: Icon(Icons.mic_rounded),
+                onPressed: () {
+                  setState(() {
+                    soundOn = true;
+                  });
+                }
+            )
           ],
+          actionsIconTheme: IconThemeData(
+              color: Colors.black
+          ),
+        ),
+        body: image == null ? Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text("Welcome!", style: TextStyle(color: Colors.black, fontSize: 30),),
+              // SizedBox(height: 100,),
+              Image.asset(
+                  "assets/images/undraw_Artificial_intelligence_re_enpp.png"),
+              IconButton(
+                  icon: Icon(Icons.add_a_photo, size: 40,),
+                  onPressed: _getImageAndClassify)
+            ]
+        ) : Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.file(image, height: MediaQuery.of(context).size.height * 0.6,),
+              category == null ? Text("Loading....") : Text(category),
+              IconButton(
+                  icon: Icon(Icons.add_a_photo, size: 40,), onPressed: _getImageAndClassify)
+            ],
+          ),
         )
     );
   }
