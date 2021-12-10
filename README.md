@@ -6,7 +6,7 @@ Scenery detection using transfer learning.
 
 - Through this app, a user can take a picture of their surrounding to know where they are (could be for fun, could be for emergency, could be for visually impaired people).
 - The app uploads the image file to [SceneNet_Backend](https://github.com/Saransh-cpp/SceneNet-Backend), which is trained, using transfer learning, on a dataset of 10,000+ indoor images.
-- The API returns a specific category which is then either, ony displayed, or, displayed and spoken (text to speech).
+- The API returns a specific category which is then either, only displayed, or, displayed and spoken (text to speech).
 - The user can easily select if they want the app to speak or not.
 
 
