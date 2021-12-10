@@ -14,9 +14,9 @@ Scenery detection using transfer learning.
 
 <p float="left" align="center">
 
-  <img src="https://user-images.githubusercontent.com/74055102/144904986-22407d8a-92a3-45ae-b175-10943aab3304.png" height=500/>
-  <img src="https://user-images.githubusercontent.com/74055102/144904994-472460fc-3761-42b1-abb7-d0dc275da79b.png" height=500/>
-  <img src="https://user-images.githubusercontent.com/74055102/144904990-1617b4e3-1c41-4505-80e0-20d87f26922c.png" height=500/>
+  <img src="https://user-images.githubusercontent.com/74055102/144904986-22407d8a-92a3-45ae-b175-10943aab3304.png" height=450/>
+  <img src="https://user-images.githubusercontent.com/74055102/144904994-472460fc-3761-42b1-abb7-d0dc275da79b.png" height=450/>
+  <img src="https://user-images.githubusercontent.com/74055102/144904990-1617b4e3-1c41-4505-80e0-20d87f26922c.png" height=450/>
            
 </p>
 
